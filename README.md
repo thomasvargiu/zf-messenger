@@ -70,8 +70,8 @@ return [
         'transports' => [
             'messenger.transport.async' => [
                 'dsn' => 'amqp://guest:guest@rabbitmq:5672',
+                'serializer' => Messenger\Transport\Serialization\PhpSerializer::class, // custom serializer service
                 'options' => [
-                    'serializer' => Messenger\Transport\Serialization\PhpSerializer::class, // custom serializer service
                     'exchange' => [
                         'name' => 'messenger_events',
                     ],
