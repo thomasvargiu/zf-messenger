@@ -1,0 +1,96 @@
+{
+    "name": "thomasvargiu/zf-messenger",
+    "description": "ZF factories to use the Symfony Messenger in ZF2 and expressive applications",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Thomas Vargiu",
+            "email": "tvargiu@gmail.com"
+        }
+    ],
+    "extra": {
+        "zf": {
+            "component": "TMV\\Messenger",
+            "config-provider": "TMV\\Messenger\\ConfigProvider"
+        }
+    },
+    "keywords": [
+        "message",
+        "factory",
+        "messenger",
+        "messaging",
+        "service bus",
+        "bus",
+        "symfony",
+        "symfony/messenger",
+        "amqp",
+        "module",
+        "zend",
+        "expressive"
+    ],
+    "require": {
+        "php": "^7.1",
+        "container-interop/container-interop": "^1.2",
+        "psr/container": "^1.0",
+        "symfony/event-dispatcher": "^4.3",
+        "symfony/messenger": "~4.3.6",
+        "zendframework/zend-servicemanager": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TMV\\Messenger\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TMV\\Messenger\\Test\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "doctrine/dbal": "^2.7",
+        "doctrine/orm": "^2.4",
+        "facile-it/facile-coding-standard": "^0.3.1",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.11.19",
+        "phpunit/phpunit": "^7.5 || ^8.4",
+        "psr/cache": "^1.0",
+        "psr/log": "^1.1",
+        "vimeo/psalm": "^3.6"
+    },
+    "suggest": {
+        "doctrine/dbal": "To use doctrine transport",
+        "doctrine/orm": "To use doctrine ORM middlewares",
+        "psr/cache-implementation": "To use stop workers command"
+    },
+    "scripts": {
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix --diff",
+        "test": [
+            "@phpunit"
+        ],
+        "test-all": [
+            "@cs-check",
+            "@phpstan",
+            "@psalm",
+            "@phpunit"
+        ],
+        "ci-test-all": [
+            "@cs-check",
+            "@phpstan",
+            "@psalm",
+            "@ci-phpunit"
+        ],
+        "ci-test": [
+            "@ci-phpunit"
+        ],
+        "psalm": "psalm --show-info=false",
+        "phpstan": "phpstan analyse .",
+        "phpunit": "phpunit",
+        "ci-phpunit": "phpunit --coverage-clover=coverage.clover"
+    }
+}
