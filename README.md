@@ -1,5 +1,12 @@
 # zf-messenger
 
+[![Latest Stable Version](https://poser.pugx.org/thomasvargiu/zf-messenger/v/stable)](https://packagist.org/packages/thomasvargiu/zf-messenger)
+[![Total Downloads](https://poser.pugx.org/thomasvargiu/zf-messenger/downloads)](https://packagist.org/packages/thomasvargiu/zf-messenger)
+[![License](https://poser.pugx.org/thomasvargiu/zf-messenger/license)](https://packagist.org/packages/thomasvargiu/zf-messenger)
+[![Code Coverage](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/badges/build.png?b=master)](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thomasvargiu/zf-messenger/?branch=master)
+
 ZF factories to use the Symfony Messenger in ZF2 and expressive applications
 
 ## Usage
