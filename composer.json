@@ -27,7 +27,7 @@
         "service bus",
         "bus",
         "symfony",
-        "symfony/messenger",
+        "symfony messenger",
         "amqp",
         "module",
         "zend",
