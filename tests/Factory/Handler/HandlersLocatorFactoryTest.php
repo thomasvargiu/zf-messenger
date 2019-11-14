@@ -9,7 +9,6 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\Handler\HandlersLocatorInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use TMV\Messenger\Factory\Handler\HandlersLocatorFactory;
 
 class HandlersLocatorFactoryTest extends TestCase
@@ -27,9 +26,9 @@ class HandlersLocatorFactoryTest extends TestCase
                         'handlers' => [
                             'foo' => [
                                 'handler1',
-                                function () {
+                                static function () {
                                 },
-                                new HandlerDescriptor(function () {
+                                new HandlerDescriptor(static function () {
                                 }),
                             ],
                         ],
@@ -37,13 +36,6 @@ class HandlersLocatorFactoryTest extends TestCase
                 ],
             ],
         ]);
-
-        $handler = $this->prophesize(MessageHandlerInterface::class);
-
-        $container->get('handler1')
-            ->shouldBeCalled()
-            ->willReturn($handler->reveal());
-
         /** @var HandlersLocator $service */
         $service = $factory($container->reveal());
 

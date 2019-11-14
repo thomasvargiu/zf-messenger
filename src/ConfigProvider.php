@@ -43,18 +43,6 @@ class ConfigProvider
         ];
     }
 
-    public function getCommands(): array
-    {
-        return [
-            SFMessenger\Command\ConsumeMessagesCommand::class,
-            SFMessenger\Command\StopWorkersCommand::class,
-            SFMessenger\Command\SetupTransportsCommand::class,
-            SFMessenger\Command\FailedMessagesRemoveCommand::class,
-            SFMessenger\Command\FailedMessagesRetryCommand::class,
-            SFMessenger\Command\FailedMessagesShowCommand::class,
-        ];
-    }
-
     public function __invoke(): array
     {
         return [
