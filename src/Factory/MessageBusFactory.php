@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory;
 
+use function array_key_exists;
+use function array_map;
+use function array_merge;
 use Psr\Container\ContainerInterface;
+use function sprintf;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
@@ -36,10 +40,10 @@ final class MessageBusFactory
         $middleware = $busConfig['middleware'] ?? [];
 
         /** @var MiddlewareInterface[] $middleware */
-        $middleware = \array_map([$container, 'get'], $middleware);
+        $middleware = array_map([$container, 'get'], $middleware);
 
         if ($includeDefaults) {
-            $middleware = \array_merge(
+            $middleware = array_merge(
                 [
                     new AddBusNameStampMiddleware($this->busName),
                     new DispatchAfterCurrentBusMiddleware(),
@@ -64,8 +68,8 @@ final class MessageBusFactory
      */
     public static function __callStatic(string $name, array $arguments): MessageBusInterface
     {
-        if (! \array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
-            throw new InvalidArgumentException(\sprintf(
+        if (! array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
+            throw new InvalidArgumentException(sprintf(
                 'The first argument must be of type %s',
                 ContainerInterface::class
             ));

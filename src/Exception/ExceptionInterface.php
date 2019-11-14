@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Exception;
 
-interface ExceptionInterface extends \Throwable
+use Throwable;
+
+interface ExceptionInterface extends Throwable
 {
 }

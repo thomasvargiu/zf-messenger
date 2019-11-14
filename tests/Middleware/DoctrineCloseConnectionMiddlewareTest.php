@@ -7,6 +7,8 @@ namespace TMV\Messenger\Test\Middleware;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Stamp\ReceivedStamp;
@@ -42,7 +44,7 @@ class DoctrineCloseConnectionMiddlewareTest extends MiddlewareTestCase
     {
         $this->connection->expects($this->once())
             ->method('close');
-        $envelope = new Envelope(new \stdClass(), [
+        $envelope = new Envelope(new stdClass(), [
             new ReceivedStamp('async'),
         ]);
         $this->middleware->handle($envelope, $this->getStackMock());
@@ -54,17 +56,17 @@ class DoctrineCloseConnectionMiddlewareTest extends MiddlewareTestCase
         $managerRegistry
             ->method('getManager')
             ->with('unknown_manager')
-            ->will($this->throwException(new \InvalidArgumentException()));
+            ->will($this->throwException(new InvalidArgumentException()));
         $middleware = new DoctrineCloseConnectionMiddleware($managerRegistry, 'unknown_manager');
         $this->expectException(UnrecoverableMessageHandlingException::class);
-        $middleware->handle(new Envelope(new \stdClass()), $this->getStackMock(false));
+        $middleware->handle(new Envelope(new stdClass()), $this->getStackMock(false));
     }
 
     public function testMiddlewareNotCloseInNonWorkerContext(): void
     {
         $this->connection->expects($this->never())
             ->method('close');
-        $envelope = new Envelope(new \stdClass());
+        $envelope = new Envelope(new stdClass());
         $this->middleware->handle($envelope, $this->getStackMock());
     }
 }

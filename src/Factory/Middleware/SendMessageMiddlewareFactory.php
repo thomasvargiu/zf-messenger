@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Middleware;
 
+use function array_key_exists;
 use Psr\Container\ContainerInterface;
+use function sprintf;
 use Symfony\Component\Messenger\Middleware\SendMessageMiddleware;
 use TMV\Messenger\Exception\InvalidArgumentException;
 use TMV\Messenger\Factory\Transport\Sender\SendersLocatorFactory;
@@ -49,8 +51,8 @@ final class SendMessageMiddlewareFactory
      */
     public static function __callStatic(string $name, array $arguments): SendMessageMiddleware
     {
-        if (! \array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
-            throw new InvalidArgumentException(\sprintf(
+        if (! array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
+            throw new InvalidArgumentException(sprintf(
                 'The first argument must be of type %s',
                 ContainerInterface::class
             ));

@@ -7,6 +7,8 @@ namespace TMV\Messenger\Test\Middleware;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Stamp\ReceivedStamp;
@@ -47,7 +49,7 @@ class DoctrinePingConnectionMiddlewareTest extends MiddlewareTestCase
             ->method('close');
         $this->connection->expects($this->once())
             ->method('connect');
-        $envelope = new Envelope(new \stdClass(), [
+        $envelope = new Envelope(new stdClass(), [
             new ReceivedStamp('async'),
         ]);
         $this->middleware->handle($envelope, $this->getStackMock());
@@ -61,7 +63,7 @@ class DoctrinePingConnectionMiddlewareTest extends MiddlewareTestCase
         $this->managerRegistry->expects($this->once())
             ->method('resetManager')
             ->with($this->entityManagerName);
-        $envelope = new Envelope(new \stdClass(), [
+        $envelope = new Envelope(new stdClass(), [
             new ReceivedStamp('async'),
         ]);
         $this->middleware->handle($envelope, $this->getStackMock());
@@ -73,10 +75,10 @@ class DoctrinePingConnectionMiddlewareTest extends MiddlewareTestCase
         $managerRegistry
             ->method('getManager')
             ->with('unknown_manager')
-            ->will($this->throwException(new \InvalidArgumentException()));
+            ->will($this->throwException(new InvalidArgumentException()));
         $middleware = new DoctrinePingConnectionMiddleware($managerRegistry, 'unknown_manager');
         $this->expectException(UnrecoverableMessageHandlingException::class);
-        $middleware->handle(new Envelope(new \stdClass()), $this->getStackMock(false));
+        $middleware->handle(new Envelope(new stdClass()), $this->getStackMock(false));
     }
 
     public function testMiddlewareNoPingInNonWorkerContext(): void
@@ -88,7 +90,7 @@ class DoctrinePingConnectionMiddlewareTest extends MiddlewareTestCase
             ->method('close');
         $this->connection->expects($this->never())
             ->method('connect');
-        $envelope = new Envelope(new \stdClass());
+        $envelope = new Envelope(new stdClass());
         $this->middleware->handle($envelope, $this->getStackMock());
     }
 }

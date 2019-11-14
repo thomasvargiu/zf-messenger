@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Transport;
 
+use function array_key_exists;
+use function is_array;
+use function is_string;
 use Psr\Container\ContainerInterface;
+use function sprintf;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactory as SFTransportFactory;
@@ -32,11 +36,11 @@ final class TransportFactory
         $options = [];
         $serializerName = $config['messenger']['default_serializer'] ?? null;
 
-        if (\is_array($transportConfig)) {
+        if (is_array($transportConfig)) {
             $dsn = $transportConfig['dsn'] ?? null;
             $options = $transportConfig['options'] ?? [];
             $serializerName = $transportConfig['serializer'] ?? $serializerName;
-        } elseif (\is_string($transportConfig)) {
+        } elseif (is_string($transportConfig)) {
             $dsn = $transportConfig;
         }
 
@@ -61,8 +65,8 @@ final class TransportFactory
      */
     public static function __callStatic(string $name, array $arguments): TransportInterface
     {
-        if (! \array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
-            throw new InvalidArgumentException(\sprintf(
+        if (! array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
+            throw new InvalidArgumentException(sprintf(
                 'The first argument must be of type %s',
                 ContainerInterface::class
             ));

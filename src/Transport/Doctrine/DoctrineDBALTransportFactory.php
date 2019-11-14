@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Transport\Doctrine;
 
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use function sprintf;
+use function strpos;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\Transport\Doctrine\Connection;
 use Symfony\Component\Messenger\Transport\Doctrine\DoctrineTransport;
@@ -28,8 +31,8 @@ class DoctrineDBALTransportFactory implements TransportFactoryInterface
 
         try {
             $driverConnection = $this->container->get($configuration['connection']);
-        } catch (\InvalidArgumentException $e) {
-            throw new TransportException(\sprintf('Could not find Doctrine connection from Messenger DSN "%s".', $dsn), 0, $e);
+        } catch (InvalidArgumentException $e) {
+            throw new TransportException(sprintf('Could not find Doctrine connection from Messenger DSN "%s".', $dsn), 0, $e);
         }
 
         $connection = new Connection($configuration, $driverConnection);
@@ -39,6 +42,6 @@ class DoctrineDBALTransportFactory implements TransportFactoryInterface
 
     public function supports(string $dsn, array $options): bool
     {
-        return 0 === \strpos($dsn, 'doctrinedbal://');
+        return 0 === strpos($dsn, 'doctrinedbal://');
     }
 }

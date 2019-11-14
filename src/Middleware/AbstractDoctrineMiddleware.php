@@ -6,6 +6,7 @@ namespace TMV\Messenger\Middleware;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -30,7 +31,7 @@ abstract class AbstractDoctrineMiddleware implements MiddlewareInterface
         try {
             /** @var EntityManagerInterface $entityManager */
             $entityManager = $this->managerRegistry->getManager($this->entityManagerName);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             throw new UnrecoverableMessageHandlingException($e->getMessage(), 0, $e);
         }
 

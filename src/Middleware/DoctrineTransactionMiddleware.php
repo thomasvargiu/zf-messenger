@@ -9,6 +9,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
+use Throwable;
 
 class DoctrineTransactionMiddleware extends AbstractDoctrineMiddleware
 {
@@ -25,7 +26,7 @@ class DoctrineTransactionMiddleware extends AbstractDoctrineMiddleware
             $entityManager->getConnection()->commit();
 
             return $envelope;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $entityManager->getConnection()->rollBack();
 
             if ($exception instanceof HandlerFailedException) {

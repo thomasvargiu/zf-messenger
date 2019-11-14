@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TMV\Messenger;
 
+use function func_get_args;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -40,7 +41,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function addListener($eventName, $listener, $priority = 0): void
     {
-        $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -48,7 +49,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
-        $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -57,7 +58,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function removeListener($eventName, $listener): void
     {
-        $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -65,7 +66,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function removeSubscriber(EventSubscriberInterface $subscriber): void
     {
-        $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -75,7 +76,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function getListeners($eventName = null): array
     {
-        return $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        return $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -85,7 +86,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function dispatch($event)
     {
-        return $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        return $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -96,7 +97,7 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function getListenerPriority($eventName, $listener): ?int
     {
-        return $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        return $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -106,6 +107,6 @@ final class EventDispatcherProxy implements EventDispatcherInterface
      */
     public function hasListeners($eventName = null): bool
     {
-        return $this->callInternalMethod(__FUNCTION__, \func_get_args());
+        return $this->callInternalMethod(__FUNCTION__, func_get_args());
     }
 }

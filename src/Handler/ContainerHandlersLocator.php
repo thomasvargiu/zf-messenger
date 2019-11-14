@@ -9,6 +9,7 @@ use function class_parents;
 use function get_class;
 use function in_array;
 use function is_callable;
+use function is_string;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\HandlerDescriptor;
@@ -41,7 +42,7 @@ final class ContainerHandlersLocator implements HandlersLocatorInterface
             foreach ($this->handlers[$type] ?? [] as $handlerDescriptor) {
                 if (is_callable($handlerDescriptor)) {
                     $handlerDescriptor = new HandlerDescriptor($handlerDescriptor);
-                } elseif (\is_string($handlerDescriptor)) {
+                } elseif (is_string($handlerDescriptor)) {
                     $handlerDescriptor = new HandlerDescriptor($this->container->get($handlerDescriptor));
                 }
 

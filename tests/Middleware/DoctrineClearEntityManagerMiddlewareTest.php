@@ -6,6 +6,8 @@ namespace TMV\Messenger\Test\Middleware;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Stamp\ReceivedStamp;
@@ -25,7 +27,7 @@ class DoctrineClearEntityManagerMiddlewareTest extends MiddlewareTestCase
             ->with('default')
             ->willReturn($entityManager);
         $middleware = new DoctrineClearEntityManagerMiddleware($managerRegistry, 'default');
-        $envelope = new Envelope(new \stdClass(), [
+        $envelope = new Envelope(new stdClass(), [
             new ReceivedStamp('async'),
         ]);
         $middleware->handle($envelope, $this->getStackMock());
@@ -37,10 +39,10 @@ class DoctrineClearEntityManagerMiddlewareTest extends MiddlewareTestCase
         $managerRegistry
             ->method('getManager')
             ->with('unknown_manager')
-            ->will($this->throwException(new \InvalidArgumentException()));
+            ->will($this->throwException(new InvalidArgumentException()));
         $middleware = new DoctrineClearEntityManagerMiddleware($managerRegistry, 'unknown_manager');
         $this->expectException(UnrecoverableMessageHandlingException::class);
-        $middleware->handle(new Envelope(new \stdClass()), $this->getStackMock(false));
+        $middleware->handle(new Envelope(new stdClass()), $this->getStackMock(false));
     }
 
     public function testMiddlewareDoesNotClearInNonWorkerContext(): void
@@ -54,7 +56,7 @@ class DoctrineClearEntityManagerMiddlewareTest extends MiddlewareTestCase
             ->with('default')
             ->willReturn($entityManager);
         $middleware = new DoctrineClearEntityManagerMiddleware($managerRegistry, 'default');
-        $envelope = new Envelope(new \stdClass());
+        $envelope = new Envelope(new stdClass());
         $middleware->handle($envelope, $this->getStackMock());
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Transport\Receiver;
 
+use function array_key_exists;
+use function array_keys;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
 use TMV\Messenger\Exception\InvalidArgumentException;
@@ -16,7 +18,7 @@ final class ReceiversLocatorFactory
         $factories = [];
 
         $config = $container->has('config') ? $container->get('config') : [];
-        $transportNames = \array_keys($config['messenger']['transports'] ?? []);
+        $transportNames = array_keys($config['messenger']['transports'] ?? []);
         $receivers = $config['messenger']['receivers'] ?? [];
 
         foreach ($transportNames as $name) {
@@ -26,7 +28,7 @@ final class ReceiversLocatorFactory
         }
 
         foreach ($receivers as $name => $serviceName) {
-            if (\array_key_exists((string) $name, $factories)) {
+            if (array_key_exists((string) $name, $factories)) {
                 throw new InvalidArgumentException(sprintf('A receiver named "%s" already exists as a transport name', $name));
             }
 

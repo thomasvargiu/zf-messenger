@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Retry;
 
+use function array_key_exists;
+use function is_string;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Retry\MultiplierRetryStrategy;
 use Symfony\Component\Messenger\Retry\RetryStrategyInterface;
@@ -26,13 +28,13 @@ final class RetryStrategyFactory
         /** @var array|array<string, float|int>|string $retryConfig */
         $retryConfig = $config['messenger']['transports'][$this->transportName]['retry_strategy'] ?? [];
 
-        if (\is_string($retryConfig)) {
+        if (is_string($retryConfig)) {
             return $container->get($retryConfig);
         }
 
         $maxRetries = 3;
 
-        if (\array_key_exists('max_retries', $retryConfig)) {
+        if (array_key_exists('max_retries', $retryConfig)) {
             $maxRetries = null !== $retryConfig['max_retries'] ? (int) $retryConfig['max_retries'] : null;
         }
 

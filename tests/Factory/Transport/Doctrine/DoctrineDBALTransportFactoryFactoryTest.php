@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use TMV\Messenger\Factory\Transport\Doctrine\DoctrineDBALTransportFactoryFactory;
 use TMV\Messenger\Transport\Doctrine\DoctrineDBALTransportFactory;
+use TypeError;
 
 class DoctrineDBALTransportFactoryFactoryTest extends TestCase
 {
@@ -22,7 +23,7 @@ class DoctrineDBALTransportFactoryFactoryTest extends TestCase
 
     public function testFactoryWithoutContainer(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
 
         $factory = new DoctrineDBALTransportFactoryFactory();
         $factory(null);

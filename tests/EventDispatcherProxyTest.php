@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TMV\Messenger\Test;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TMV\Messenger\EventDispatcherProxy;
@@ -109,7 +110,7 @@ class EventDispatcherProxyTest extends TestCase
 
     public function testDispatch(): void
     {
-        $object = new \stdClass();
+        $object = new stdClass();
         $this->eventDispatcher->dispatch($object)
             ->shouldBeCalled();
 

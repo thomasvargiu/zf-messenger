@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Command;
 
+use function array_keys;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Command\ConsumeMessagesCommand;
 use Symfony\Component\Messenger\RoutableMessageBus;
@@ -27,7 +28,7 @@ final class ConsumeMessagesCommandFactory
             $messageBus,
             $container->get('messenger.receivers_locator'),
             $logger ? $container->get($logger) : null,
-            \array_keys($transports),
+            array_keys($transports),
             $retryStrategyLocator,
             $eventDispatcher ? $container->get($eventDispatcher) : null
         );

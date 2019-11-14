@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TMV\Messenger\Test\Transport\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Exception\TransportException;
@@ -44,7 +45,7 @@ class DoctrineDBALTransportFactoryTest extends TestCase
         $dsn = 'doctrinedbal://hostname';
         $options = [];
 
-        $container->get('hostname')->shouldBeCalled()->willThrow(new \InvalidArgumentException('No service'));
+        $container->get('hostname')->shouldBeCalled()->willThrow(new InvalidArgumentException('No service'));
 
         $factory = new DoctrineDBALTransportFactory($container->reveal());
 

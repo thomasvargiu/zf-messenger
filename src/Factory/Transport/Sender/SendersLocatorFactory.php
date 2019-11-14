@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory\Transport\Sender;
 
+use function class_exists;
+use function interface_exists;
 use Psr\Container\ContainerInterface;
+use function sprintf;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocatorInterface;
 use TMV\Messenger\Exception\LogicException;
@@ -27,8 +30,8 @@ final class SendersLocatorFactory
         $routing = $config['messenger']['buses'][$this->busName]['routes'] ?? [];
 
         foreach ($routing as $message => $messageConfiguration) {
-            if ('*' !== $message && ! \class_exists((string) $message) && ! \interface_exists((string) $message, false)) {
-                throw new LogicException(\sprintf('Invalid Messenger routing configuration: class or interface "%s" not found.', $message));
+            if ('*' !== $message && ! class_exists((string) $message) && ! interface_exists((string) $message, false)) {
+                throw new LogicException(sprintf('Invalid Messenger routing configuration: class or interface "%s" not found.', $message));
             }
         }
 

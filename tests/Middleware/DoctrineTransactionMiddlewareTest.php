@@ -7,6 +7,8 @@ namespace TMV\Messenger\Test\Middleware;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Test\Middleware\MiddlewareTestCase;
@@ -38,7 +40,7 @@ class DoctrineTransactionMiddlewareTest extends MiddlewareTestCase
             ->method('commit');
         $this->entityManager->expects($this->once())
             ->method('flush');
-        $this->middleware->handle(new Envelope(new \stdClass()), $this->getStackMock());
+        $this->middleware->handle(new Envelope(new stdClass()), $this->getStackMock());
     }
 
     public function testTransactionIsRolledBackOnException(): void
@@ -49,7 +51,7 @@ class DoctrineTransactionMiddlewareTest extends MiddlewareTestCase
             ->method('beginTransaction');
         $this->connection->expects($this->once())
             ->method('rollBack');
-        $this->middleware->handle(new Envelope(new \stdClass()), $this->getThrowingStackMock());
+        $this->middleware->handle(new Envelope(new stdClass()), $this->getThrowingStackMock());
     }
 
     public function testInvalidEntityManagerThrowsException(): void
@@ -58,9 +60,9 @@ class DoctrineTransactionMiddlewareTest extends MiddlewareTestCase
         $managerRegistry
             ->method('getManager')
             ->with('unknown_manager')
-            ->will($this->throwException(new \InvalidArgumentException()));
+            ->will($this->throwException(new InvalidArgumentException()));
         $middleware = new DoctrineTransactionMiddleware($managerRegistry, 'unknown_manager');
         $this->expectException(UnrecoverableMessageHandlingException::class);
-        $middleware->handle(new Envelope(new \stdClass()), $this->getStackMock(false));
+        $middleware->handle(new Envelope(new stdClass()), $this->getStackMock(false));
     }
 }

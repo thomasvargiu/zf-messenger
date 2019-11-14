@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Factory;
 
+use function array_key_exists;
 use Psr\Container\ContainerInterface;
+use function sprintf;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\RoutableMessageBus;
 use TMV\Messenger\Exception\InvalidArgumentException;
@@ -35,8 +37,8 @@ final class RoutableMessageBusFactory
      */
     public static function __callStatic(string $name, array $arguments): MessageBusInterface
     {
-        if (! \array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
-            throw new InvalidArgumentException(\sprintf(
+        if (! array_key_exists(0, $arguments) || ! $arguments[0] instanceof ContainerInterface) {
+            throw new InvalidArgumentException(sprintf(
                 'The first argument must be of type %s',
                 ContainerInterface::class
             ));
