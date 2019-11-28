@@ -11,6 +11,9 @@ final class SendFailedMessageForRetryListenerFactory
 {
     public function __invoke(ContainerInterface $container): SendFailedMessageForRetryListener
     {
+        /** @var array $config */
+        $config = $container->has('config') ? $container->get('config') : [];
+
         /** @var string|null $logger */
         $logger = $config['messenger']['logger'] ?? null;
 

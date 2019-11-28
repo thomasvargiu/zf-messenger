@@ -12,6 +12,9 @@ final class StopWorkerOnRestartSignalListenerFactory
 {
     public function __invoke(ContainerInterface $container): StopWorkerOnRestartSignalListener
     {
+        /** @var array $config */
+        $config = $container->has('config') ? $container->get('config') : [];
+
         /** @var string|null $logger */
         $logger = $config['messenger']['logger'] ?? null;
 
