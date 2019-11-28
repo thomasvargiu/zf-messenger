@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\EventListener\SendFailedMessageToFailureTransportListener;
-use Symfony\Component\Messenger\RoutableMessageBus;
+use Symfony\Component\Messenger\Transport\TransportInterface;
 use TMV\Messenger\Exception\InvalidArgumentException;
 use TMV\Messenger\Factory\Listener\SendFailedMessageToFailureTransportListenerFactory;
 
@@ -26,11 +26,12 @@ class SendFailedMessageToFailureTransportListenerFactoryTest extends TestCase
             ],
         ]);
 
-        $messageBus = $this->prophesize(RoutableMessageBus::class);
+        $sender = $this->prophesize(TransportInterface::class);
         $logger = $this->prophesize(LoggerInterface::class);
-        $container->get('messenger.routable_message_bus')
+
+        $container->get('failure-transport-name')
             ->shouldBeCalled()
-            ->willReturn($messageBus->reveal());
+            ->willReturn($sender->reveal());
         $container->get('logger.service')
             ->shouldBeCalled()
             ->willReturn($logger->reveal());
@@ -53,11 +54,11 @@ class SendFailedMessageToFailureTransportListenerFactoryTest extends TestCase
             ],
         ]);
 
-        $messageBus = $this->prophesize(RoutableMessageBus::class);
+        $sender = $this->prophesize(TransportInterface::class);
 
-        $container->get('messenger.routable_message_bus')
+        $container->get('failure-transport-name')
             ->shouldBeCalled()
-            ->willReturn($messageBus->reveal());
+            ->willReturn($sender->reveal());
 
         $factory = new SendFailedMessageToFailureTransportListenerFactory();
         $service = $factory($container->reveal());
@@ -78,13 +79,7 @@ class SendFailedMessageToFailureTransportListenerFactoryTest extends TestCase
             ],
         ]);
 
-        $messageBus = $this->prophesize(RoutableMessageBus::class);
-
-        $container->get('messenger.routable_message_bus')
-            ->shouldBeCalled()
-            ->willReturn($messageBus->reveal());
-
         $factory = new SendFailedMessageToFailureTransportListenerFactory();
-        $service = $factory($container->reveal());
+        $factory($container->reveal());
     }
 }

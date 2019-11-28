@@ -16,26 +16,17 @@ final class ConsumeMessagesCommandFactory
         $config = $container->has('config') ? $container->get('config') : [];
         /** @var RoutableMessageBus $messageBus */
         $messageBus = $container->get('messenger.routable_message_bus');
+        $eventDispatcher = $config['messenger']['event_dispatcher'] ?? 'messenger.event_dispatcher';
         $logger = $config['messenger']['logger'] ?? null;
-        $eventDispatcher = $config['messenger']['event_dispatcher'] ?? null;
         $transports = $config['messenger']['transports'] ?? [];
-        /** @var ContainerInterface $retryStrategyLocator */
-        $retryStrategyLocator = $container->get('messenger.retry_strategy_locator');
-        /** @var string|null $cachePoolForRestartSignal */
-        $cachePoolForRestartSignal = $config['messenger']['cache_pool_for_restart_signal'] ?? null;
 
         $command = new ConsumeMessagesCommand(
             $messageBus,
             $container->get('messenger.receivers_locator'),
+            $container->get($eventDispatcher),
             $logger ? $container->get($logger) : null,
-            array_keys($transports),
-            $retryStrategyLocator,
-            $eventDispatcher ? $container->get($eventDispatcher) : null
+            array_keys($transports)
         );
-
-        if (null !== $cachePoolForRestartSignal) {
-            $command->setCachePoolForRestartSignal($container->get($cachePoolForRestartSignal));
-        }
 
         return $command;
     }

@@ -7,7 +7,9 @@ namespace TMV\Messenger\Factory;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Messenger\EventListener\SendFailedMessageForRetryListener;
 use Symfony\Component\Messenger\EventListener\SendFailedMessageToFailureTransportListener;
+use Symfony\Component\Messenger\EventListener\StopWorkerOnRestartSignalListener;
 use TMV\Messenger\EventDispatcherProxy;
 
 final class EventDispatcherFactory
@@ -22,11 +24,18 @@ final class EventDispatcherFactory
 
             $eventDispatcher = new EventDispatcher();
 
+            $eventDispatcher->addSubscriber($container->get(SendFailedMessageForRetryListener::class));
+
             $failureTransport = $config['messenger']['failure_transport'] ?? null;
 
             if ($failureTransport) {
-                $listener = $container->get(SendFailedMessageToFailureTransportListener::class);
-                $eventDispatcher->addSubscriber($listener);
+                $eventDispatcher->addSubscriber($container->get(SendFailedMessageToFailureTransportListener::class));
+            }
+
+            $cachePoolForRestartSignal = $config['messenger']['cache_pool_for_restart_signal'] ?? null;
+
+            if ($cachePoolForRestartSignal) {
+                $eventDispatcher->addSubscriber($container->get(StopWorkerOnRestartSignalListener::class));
             }
 
             return $eventDispatcher;

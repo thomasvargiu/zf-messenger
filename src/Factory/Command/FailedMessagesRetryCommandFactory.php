@@ -21,7 +21,7 @@ final class FailedMessagesRetryCommandFactory
             throw new InvalidArgumentException('Invalid failure_transport name');
         }
 
-        $eventDispatcher = $config['messenger']['event_dispatcher'] ?? null;
+        $eventDispatcher = $config['messenger']['event_dispatcher'] ?? 'messenger.event_dispatcher';
 
         if (null === $eventDispatcher) {
             throw new InvalidArgumentException('Invalid event_dispatcher service');
@@ -31,8 +31,6 @@ final class FailedMessagesRetryCommandFactory
         $receiverLocator = $container->get('messenger.receivers_locator');
         /** @var MessageBusInterface $messageBus */
         $messageBus = $container->get('messenger.routable_message_bus');
-        /** @var ContainerInterface $retryStrategyLocator */
-        $retryStrategyLocator = $container->get('messenger.retry_strategy_locator');
         /** @var string|null $logger */
         $logger = $config['messenger']['logger'] ?? null;
 
@@ -41,7 +39,6 @@ final class FailedMessagesRetryCommandFactory
             $receiverLocator->get($failureTransportName),
             $messageBus,
             $container->get($eventDispatcher),
-            $retryStrategyLocator->has($failureTransportName) ? $retryStrategyLocator->get($failureTransportName) : null,
             $logger ? $container->get($logger) : null
         );
     }

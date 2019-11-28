@@ -6,7 +6,6 @@ namespace TMV\Messenger\Factory\Listener;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\EventListener\SendFailedMessageToFailureTransportListener;
-use Symfony\Component\Messenger\MessageBusInterface;
 use TMV\Messenger\Exception\InvalidArgumentException;
 
 final class SendFailedMessageToFailureTransportListenerFactory
@@ -16,8 +15,6 @@ final class SendFailedMessageToFailureTransportListenerFactory
         /** @var array $config */
         $config = $container->has('config') ? $container->get('config') : [];
 
-        /** @var MessageBusInterface $messageBus */
-        $messageBus = $container->get('messenger.routable_message_bus');
         /** @var string|null $failureTransportName */
         $failureTransportName = $config['messenger']['failure_transport'] ?? null;
 
@@ -29,8 +26,7 @@ final class SendFailedMessageToFailureTransportListenerFactory
         $logger = $config['messenger']['logger'] ?? null;
 
         return new SendFailedMessageToFailureTransportListener(
-            $messageBus,
-            $failureTransportName,
+            $container->get($failureTransportName),
             $logger ? $container->get($logger) : null
         );
     }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace TMV\Messenger\Test\Factory\Transport\Sender;
 
+use function iterator_to_array;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 use TMV\Messenger\Exception\LogicException;
@@ -46,8 +48,9 @@ class SendersLocatorFactoryTest extends TestCase
         $service = $factory($container->reveal());
 
         $this->assertInstanceOf(SendersLocator::class, $service);
+        $senders = iterator_to_array($service->getSenders(new Envelope(new MessageMock())));
 
-        $this->assertSame($transport->reveal(), $service->getSenderByAlias('transport_name'));
+        $this->assertSame(['transport_name' => $transport->reveal()], $senders);
     }
 
     public function testFactoryWithInvalidRouteShouldThrowException(): void
