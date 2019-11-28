@@ -53,7 +53,7 @@ matrix:
 
   allow_failures:
     - php: nightly
-    - php: 7.4snapshot
+    - php: 7.4
       env:
         - DEPS=lowest
 
