@@ -22,6 +22,7 @@ class ConfigProvider
                 SFMessenger\Transport\AmqpExt\AmqpTransportFactory::class => InvokableFactory::class,
                 SFMessenger\Transport\Doctrine\DoctrineTransportFactory::class => InvokableFactory::class,
                 SFMessenger\Transport\RedisExt\RedisTransportFactory::class => InvokableFactory::class,
+                SFMessenger\Transport\Sync\SyncTransportFactory::class => Factory\Transport\Sync\SyncTransportFactoryFactory::class,
                 SFMessenger\Transport\TransportFactory::class => Factory\Transport\TransportFactoryFactory::class,
                 SFMessenger\Transport\Sender\SendersLocator::class => Factory\Transport\Sender\SendersLocatorFactory::class,
                 SFMessenger\Transport\Serialization\PhpSerializer::class => InvokableFactory::class,
@@ -55,10 +56,11 @@ class ConfigProvider
                 'default_serializer' => SFMessenger\Transport\Serialization\PhpSerializer::class,
                 'cache_pool_for_restart_signal' => null,
                 'transport_factories' => [
-                    Transport\Doctrine\DoctrineDBALTransportFactory::class,
+                    SFMessenger\Transport\Sync\SyncTransportFactory::class,
                     SFMessenger\Transport\InMemoryTransportFactory::class,
                     SFMessenger\Transport\AmqpExt\AmqpTransportFactory::class,
                     SFMessenger\Transport\RedisExt\RedisTransportFactory::class,
+                    Transport\Doctrine\DoctrineDBALTransportFactory::class,
                 ],
                 'buses' => [
                     'messenger.bus.default' => [

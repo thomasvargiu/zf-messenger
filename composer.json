@@ -62,7 +62,8 @@
         "phpunit/phpunit": "^7.5 || ^8.4",
         "psr/cache": "^1.0",
         "psr/log": "^1.1",
-        "vimeo/psalm": "^3.6"
+        "vimeo/psalm": "^3.6",
+        "zendframework/zend-config-aggregator": "^1.1"
     },
     "suggest": {
         "doctrine/dbal": "To use doctrine transport",
