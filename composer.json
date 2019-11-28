@@ -35,11 +35,13 @@
     ],
     "require": {
         "php": "^7.1",
-        "container-interop/container-interop": "^1.2",
         "psr/container": "^1.0",
-        "symfony/event-dispatcher": "^4.3",
-        "symfony/messenger": "^4.4",
+        "symfony/event-dispatcher": "^4.3 || ^5.0",
+        "symfony/messenger": "^4.4 || ^5.0",
         "zendframework/zend-servicemanager": "^3.0"
+    },
+    "conflict": {
+        "container-interop/container-interop": "<1.2"
     },
     "autoload": {
         "psr-4": {

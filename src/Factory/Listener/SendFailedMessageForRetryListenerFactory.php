@@ -6,7 +6,6 @@ namespace TMV\Messenger\Factory\Listener;
 
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\EventListener\SendFailedMessageForRetryListener;
-use Symfony\Component\Messenger\Transport\Sender\SendersLocatorInterface;
 
 final class SendFailedMessageForRetryListenerFactory
 {
@@ -16,7 +15,7 @@ final class SendFailedMessageForRetryListenerFactory
         $logger = $config['messenger']['logger'] ?? null;
 
         return new SendFailedMessageForRetryListener(
-            $container->get(SendersLocatorInterface::class),
+            $container,
             $container->get('messenger.retry_strategy_locator'),
             $logger ? $container->get($logger) : null
         );

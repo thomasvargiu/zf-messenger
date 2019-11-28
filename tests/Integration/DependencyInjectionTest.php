@@ -6,6 +6,7 @@ namespace TMV\Messenger\Test\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Messenger\Command\ConsumeMessagesCommand;
 use Symfony\Component\Messenger\MessageBusInterface;
 use TMV\Messenger\ConfigProvider;
 use Zend\ServiceManager\ServiceManager;
@@ -24,6 +25,12 @@ class DependencyInjectionTest extends TestCase
         $config = $configProvider();
         $this->container = new ServiceManager($config['dependencies']);
         $this->container->setService('config', $config);
+    }
+
+    public function testGetConsumeMessagesCommand(): void
+    {
+        $command = $this->container->get(ConsumeMessagesCommand::class);
+        $this->assertInstanceOf(ConsumeMessagesCommand::class, $command);
     }
 
     public function testSetupBus(): void
