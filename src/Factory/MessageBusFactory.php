@@ -15,6 +15,7 @@ use Symfony\Component\Messenger\Middleware\AddBusNameStampMiddleware;
 use Symfony\Component\Messenger\Middleware\DispatchAfterCurrentBusMiddleware;
 use Symfony\Component\Messenger\Middleware\FailedMessageProcessingMiddleware;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
+use Symfony\Component\Messenger\Middleware\RejectRedeliveredMessageMiddleware;
 use TMV\Messenger\Exception\InvalidArgumentException;
 use TMV\Messenger\Factory\Middleware\HandleMessageMiddlewareFactory;
 use TMV\Messenger\Factory\Middleware\SendMessageMiddlewareFactory;
@@ -52,6 +53,7 @@ final class MessageBusFactory
                 $middleware,
                 [
                     (new SendMessageMiddlewareFactory($this->busName))($container),
+                    new RejectRedeliveredMessageMiddleware(),
                     (new HandleMessageMiddlewareFactory($this->busName))($container),
                 ]
             );

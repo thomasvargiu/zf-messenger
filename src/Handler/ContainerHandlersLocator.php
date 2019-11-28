@@ -41,6 +41,7 @@ final class ContainerHandlersLocator implements HandlersLocatorInterface
         foreach (self::listTypes($envelope) as $type) {
             foreach ($this->handlers[$type] ?? [] as $handlerDescriptor) {
                 if (is_callable($handlerDescriptor)) {
+                    /** @psalm-suppress PossiblyInvalidArgument */
                     $handlerDescriptor = new HandlerDescriptor($handlerDescriptor);
                 } elseif (is_string($handlerDescriptor)) {
                     $handlerDescriptor = new HandlerDescriptor($this->container->get($handlerDescriptor));

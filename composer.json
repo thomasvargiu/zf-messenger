@@ -38,7 +38,7 @@
         "container-interop/container-interop": "^1.2",
         "psr/container": "^1.0",
         "symfony/event-dispatcher": "^4.3",
-        "symfony/messenger": "~4.3.6",
+        "symfony/messenger": "~4.3.7",
         "zendframework/zend-servicemanager": "^3.0"
     },
     "autoload": {
