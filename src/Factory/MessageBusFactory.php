@@ -47,13 +47,13 @@ final class MessageBusFactory
             $middleware = array_merge(
                 [
                     new AddBusNameStampMiddleware($this->busName),
+                    new RejectRedeliveredMessageMiddleware(),
                     new DispatchAfterCurrentBusMiddleware(),
                     new FailedMessageProcessingMiddleware(),
                 ],
                 $middleware,
                 [
                     (new SendMessageMiddlewareFactory($this->busName))($container),
-                    new RejectRedeliveredMessageMiddleware(),
                     (new HandleMessageMiddlewareFactory($this->busName))($container),
                 ]
             );
