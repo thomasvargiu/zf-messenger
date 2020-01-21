@@ -1,5 +1,9 @@
 # zf-messenger
 
+# Archived Project
+
+This project is abandoned. You should use [`thomasvargiu/laminas-messenger`](https://github.com/thomasvargiu/laminas-messenger).
+
 [![Latest Stable Version](https://poser.pugx.org/thomasvargiu/zf-messenger/v/stable)](https://packagist.org/packages/thomasvargiu/zf-messenger)
 [![Total Downloads](https://poser.pugx.org/thomasvargiu/zf-messenger/downloads)](https://packagist.org/packages/thomasvargiu/zf-messenger)
 [![License](https://poser.pugx.org/thomasvargiu/zf-messenger/license)](https://packagist.org/packages/thomasvargiu/zf-messenger)
